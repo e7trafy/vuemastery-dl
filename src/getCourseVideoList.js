@@ -103,9 +103,15 @@ module.exports = async (page, courseURL, type) => {
       let finString = newString.split(']},"lang":')[0];
       let videoVariations = await eval(`[${finString}]`);
 
-      let selectedVideo = await videoVariations.find(
-        (vid) => vid.quality === process.env.VIDEO_QUALITY
-      );
+      let videosDesiredQuality = await videoVariations.sort((a, b) => Number((a.quality).replace('p', '')) - Number((b.quality).replace('p', '')));
+      let existentQualities = videosDesiredQuality.map(x => x.quality);
+      let selectedVideo;
+      let desiredQualityIndex = existentQualities.indexOf(process.env.VIDEO_QUALITY);
+      if (JSON.parse(process.env.ALWAYS_BEST_VIDEO_QUALITY) || desiredQualityIndex < 0) {
+        selectedVideo = videosDesiredQuality[existentQualities.length - 1];
+      } else {
+        selectedVideo = videosDesiredQuality[desiredQualityIndex];
+      }
 
       selectedVideo.filename = `${courseTitle}/${courseTitle} - ${index + 1}-${videoTitle}.mp4`;
 

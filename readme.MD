@@ -16,12 +16,13 @@ npm install
 cp .env.example .env
 ```
 
-Fill your email and password, and you can change settings like video quality and chunks. This are default values :
+Fill your email and password, and you can change settings like video quality (or if you want the best existent one) and chunks. This are default values :
 
 ```
 EMAIL=
 PASSWORD=
 
+ALWAYS_BEST_VIDEO_QUALITY=false
 VIDEO_QUALITY=720p
 CHUNKS=10
 ```
